@@ -19,7 +19,7 @@ pipeline {
             }
         }
 
-        stage('Install Playwright Browsers') {
+        stage('Install Browsers') {
             steps {
                 bat 'npx playwright install'
             }
@@ -29,6 +29,19 @@ pipeline {
             steps {
                 bat 'npx playwright test'
             }
+        }
+    }
+
+    post {
+        always {
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'playwright-report',
+                reportFiles: 'index.html',
+                reportName: 'Playwright Report'
+            ])
         }
     }
 }
