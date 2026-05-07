@@ -6,7 +6,6 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -33,14 +32,15 @@ pipeline {
     }
 
     post {
-    always {
-        publishHTML(target: [
-            allowMissing: true,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'playwright-report',
-            reportFiles: 'index.html',
-            reportName: 'Playwright HTML Report'
-        ])
+        always {
+            publishHTML(target: [
+                allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'playwright-report',
+                reportFiles: 'index.html',
+                reportName: 'Playwright HTML Report'
+            ])
+        }
     }
 }
