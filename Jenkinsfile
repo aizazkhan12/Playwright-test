@@ -44,22 +44,22 @@ pipeline {
         }
 
         success {
-            withCredentials([string(credentialsId: 'SLACK_WEBHOOK_URL', variable: 'SLACK_WEBHOOK')]) {
-                bat '''
-                curl -X POST -H "Content-type: application/json" ^
-                --data "{\\"text\\":\\"✅ Jenkins Build SUCCESS - Playwright Tests Passed 🚀\\"}" ^
-                %SLACK_WEBHOOK%
-                '''
-            }
-        }
+    withCredentials([string(credentialsId: 'SLACK_WEBHOOK_URL', variable: 'SLACK_WEBHOOK')]) {
+        bat '''
+        curl -X POST -H "Content-type: application/json" ^
+        --data "{\\"text\\":\\"Jenkins Build SUCCESS\\nProject: Playwright CI\\nStatus: Tests Passed\\"}" ^
+        %SLACK_WEBHOOK%
+        '''
+    }
+}
 
-        failure {
-            withCredentials([string(credentialsId: 'SLACK_WEBHOOK_URL', variable: 'SLACK_WEBHOOK')]) {
-                bat '''
-                curl -X POST -H "Content-type: application/json" ^
-                --data "{\\"text\\":\\"❌ Jenkins Build FAILED 🚨\\"}" ^
-                %SLACK_WEBHOOK%
-                '''
+failure {
+    withCredentials([string(credentialsId: 'SLACK_WEBHOOK_URL', variable: 'SLACK_WEBHOOK')]) {
+        bat '''
+        curl -X POST -H "Content-type: application/json" ^
+        --data "{\\"text\\":\\"Jenkins Build FAILED\\nProject: Playwright CI\\nAction Required: Check Jenkins Console Output\\"}" ^
+        %SLACK_WEBHOOK%
+        '''
             }
         }
     }
